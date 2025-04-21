@@ -1,6 +1,20 @@
 import { useState } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, MenuItem, Switch, FormControlLabel } from '@mui/material';
-import { Menu as MenuIcon } from '@mui/icons-material';
+import { 
+    AppBar, 
+    Box, 
+    Toolbar, 
+    IconButton, 
+    Typography, 
+    Menu, 
+    Container, 
+    Avatar, 
+    Button, 
+    MenuItem, 
+    Switch, 
+    FormControlLabel,
+    Divider
+} from '@mui/material';
+import { Menu as MenuIcon, LocalLibrary as LibraryIcon } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 
 const pages = ['Books', 'My Rentals', 'Reviews'];
@@ -26,68 +40,67 @@ const Navbar = () => {
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position="sticky" elevation={2} sx={{ bgcolor: 'primary.main' }}>
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
+                <Toolbar disableGutters sx={{ minHeight: { xs: 60, md: 70 } }}>
+                    {/* Desktop Logo */}
+                    <LibraryIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
                         variant="h6"
                         noWrap
                         component={Link}
                         to="/"
                         sx={{
-                            mr: 2,
+                            mr: 4,
                             display: { xs: 'none', md: 'flex' },
                             fontWeight: 700,
                             color: 'inherit',
                             textDecoration: 'none',
+                            alignItems: 'center'
                         }}
                     >
                         Library Management
                     </Typography>
 
+                    {/* Mobile Menu */}
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
                             onClick={handleOpenNavMenu}
                             color="inherit"
+                            sx={{ p: 1 }}
                         >
                             <MenuIcon />
                         </IconButton>
                         <Menu
-                            id="menu-appbar"
                             anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
                             open={Boolean(anchorElNav)}
                             onClose={handleCloseNavMenu}
                             sx={{
                                 display: { xs: 'block', md: 'none' },
+                                mt: 1
                             }}
                         >
                             {(isAdmin ? adminPages : pages).map((page) => (
-                                <MenuItem key={page} onClick={() => handleNavigation(page)}>
+                                <MenuItem 
+                                    key={page} 
+                                    onClick={() => handleNavigation(page)}
+                                    sx={{ minWidth: 200 }}
+                                >
                                     <Typography textAlign="center">{page}</Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
                     </Box>
 
+                    {/* Mobile Logo */}
+                    <LibraryIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
-                        variant="h5"
+                        variant="h6"
                         noWrap
                         component={Link}
                         to="/"
                         sx={{
-                            mr: 2,
                             display: { xs: 'flex', md: 'none' },
                             flexGrow: 1,
                             fontWeight: 700,
@@ -95,34 +108,66 @@ const Navbar = () => {
                             textDecoration: 'none',
                         }}
                     >
-                        Library Management
+                        Library
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    {/* Desktop Navigation */}
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 1 }}>
                         {(isAdmin ? adminPages : pages).map((page) => (
                             <Button
                                 key={page}
                                 onClick={() => handleNavigation(page)}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
+                                sx={{
+                                    color: 'white',
+                                    px: 2,
+                                    py: 1,
+                                    '&:hover': {
+                                        bgcolor: 'primary.dark',
+                                    }
+                                }}
                             >
                                 {page}
                             </Button>
                         ))}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', gap: 2 }}>
+                    {/* User Controls */}
+                    <Box sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: { xs: 1, md: 2 }
+                    }}>
                         <FormControlLabel
                             control={
                                 <Switch
                                     checked={isAdmin}
                                     onChange={(e) => setIsAdmin(e.target.checked)}
                                     color="secondary"
+                                    size="small"
                                 />
                             }
-                            label={<Typography color="white">Admin</Typography>}
+                            label={
+                                <Typography 
+                                    color="white" 
+                                    sx={{ 
+                                        fontSize: { xs: '0.8rem', md: '1rem' },
+                                        display: { xs: 'none', sm: 'block' }
+                                    }}
+                                >
+                                    Admin
+                                </Typography>
+                            }
                         />
+                        <Divider orientation="vertical" flexItem sx={{ bgcolor: 'primary.light', opacity: 0.5 }} />
                         <IconButton sx={{ p: 0 }}>
-                            <Avatar alt="User" />
+                            <Avatar 
+                                alt="User" 
+                                sx={{ 
+                                    width: { xs: 32, md: 40 }, 
+                                    height: { xs: 32, md: 40 },
+                                    bgcolor: 'secondary.main'
+                                }} 
+                            />
                         </IconButton>
                     </Box>
                 </Toolbar>
