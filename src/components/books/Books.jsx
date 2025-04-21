@@ -26,7 +26,7 @@ const MOCK_BOOKS = [
         publication: 'Scribner',
         rating: 4.5,
         available: true,
-        image: 'https://via.placeholder.com/200x300',
+        image: 'https://m.media-amazon.com/images/I/71FTb9X6wsL._AC_UF1000,1000_QL80_.jpg',
         price: 9.99,
     },
     {
@@ -37,8 +37,19 @@ const MOCK_BOOKS = [
         publication: 'Grand Central Publishing',
         rating: 4.8,
         available: true,
-        image: 'https://via.placeholder.com/200x300',
+        image: 'https://m.media-amazon.com/images/I/71FxgtFKcQL._AC_UF1000,1000_QL80_.jpg',
         price: 12.99,
+    },
+    {
+        id: 3,
+        title: '1984',
+        author: 'George Orwell',
+        category: 'Science Fiction',
+        publication: 'Penguin Books',
+        rating: 4.7,
+        available: true,
+        image: 'https://m.media-amazon.com/images/I/71kxa1-0mfL._AC_UF1000,1000_QL80_.jpg',
+        price: 11.99,
     },
 ];
 
@@ -124,14 +135,24 @@ const Books = () => {
             <Grid container spacing={3}>
                 {filteredBooks.map(book => (
                     <Grid item key={book.id} xs={12} sm={6} md={4} lg={3}>
-                        <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                        <Card sx={{ 
+                            height: '100%', 
+                            display: 'flex', 
+                            flexDirection: 'column',
+                            position: 'relative',
+                            overflow: 'visible'
+                        }}>
                             <CardMedia
                                 component="img"
-                                height="200"
+                                height="280"
                                 image={book.image}
                                 alt={book.title}
+                                sx={{
+                                    objectFit: 'cover',
+                                    borderRadius: '4px 4px 0 0'
+                                }}
                             />
-                            <CardContent sx={{ flexGrow: 1 }}>
+                            <CardContent sx={{ flexGrow: 1, p: 3 }}>
                                 <Typography gutterBottom variant="h6" component="div">
                                     {book.title}
                                 </Typography>

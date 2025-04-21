@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, MenuItem } from '@mui/material';
+import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, MenuItem, Switch, FormControlLabel } from '@mui/material';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ const adminPages = ['Manage Books', 'Track Rentals', 'Notifications'];
 
 const Navbar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null);
-    const [isAdmin] = useState(false); // This would be determined by auth state
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     const handleOpenNavMenu = (event) => {
@@ -110,7 +110,17 @@ const Navbar = () => {
                         ))}
                     </Box>
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={isAdmin}
+                                    onChange={(e) => setIsAdmin(e.target.checked)}
+                                    color="secondary"
+                                />
+                            }
+                            label={<Typography color="white">Admin</Typography>}
+                        />
                         <IconButton sx={{ p: 0 }}>
                             <Avatar alt="User" />
                         </IconButton>
